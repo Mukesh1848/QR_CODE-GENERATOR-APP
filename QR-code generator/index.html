@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR_CODE GENERATOR</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 60px 0;
+      background: rgb(46, 138, 214);
+    }
+    .container {
+      max-width: 550px;
+      height: 250px;
+      background: white;
+      padding: 10px;
+      box-shadow: 1px 5px 10px black;
+    }
+    header {
+      margin: 15px 0;
+    }
+    header h3 {
+      font-weight: bolder;
+      font-size: 20px;
+    }
+    header p {
+      padding: 10px 0;
+      font-size: 19px;
+    }
+    .form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin: 15px 0;
+    }
+    .form input {
+      width: 100%;
+      font-size: 20px;
+      padding: 9px 16px;
+      margin: 20px 0;
+    }
+    .form button {
+      width: 100%;
+      padding: 10px 19px;
+      font-size: 18px;
+      background: rgb(78, 78, 165);
+      color: white;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .qr-code {
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid gray;
+    }
+    .qr-code img {
+      width: 180px;
+    }
+    .container.active {
+      height: 500px;
+      transition: height 0.3s ease;
+    }
+    .container.active .qr-code {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.5s 0.05s ease;
+      padding: 20px 0;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <header>
+        <h3>QR CODE GENERATOR</h3>
+        <p>Paste a url or enter text to create QR code</p>
+      </header>
+      <div class="form">
+        <input type="text" spellcheck="true" placeholder="Enter text or url" />
+        <button class="generatebtn">Generate QR Code</button>
+      </div>
+      <div class="qr-code">
+        <img src="./qrimg.png" alt="" class="qr-code-img" />
+      </div>
+    </div>
+
+    <script>
+              let container = document.querySelector('.container');
+                let inputText = document.querySelector('.form input');
+                let generatebtn = document.querySelector('.form button');
+                let qrimg = document.querySelector('.qr-code img');
+                let prevalue;
+
+                generatebtn.addEventListener('click',function (){
+                        let qrvalue = inputText.value.trim();;
+                       if(inputText.value==''){
+                               alert('PLEASE ENTER SOME URL OR TEXT IN INPUT BOX');
+                       }else{
+                        generatebtn.innerHTML = 'QR Code Gererating...';
+                 container.classList.add('active');
+                  qrimg.src= `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrvalue}`;
+
+                  qrimg.addEventListener("load", () => {
+                 container.classList.add("active");
+                 generatebtn.innerText = "Generate QR Code";
+    });
+                       }     
+                })
+
+
+                inputText.addEventListener("keyup", () => {
+    if(!inputText.value.trim()) {
+       container.classList.remove("active");
+        preValue = "";
+    }
+});
+        </script>
+  </body>
+</html>
